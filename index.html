@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar System 3D AR</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #eaf3ff, #cfd8e8);
+      color: #0a1f44;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Animated Background */
+    .background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at center, #001b3a, #000814);
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(0, 170, 255, 0.8);
+      border-radius: 50%;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .pulse {
+      position: absolute;
+      width: 400px; height: 400px;
+      border: 2px solid #00baff88;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulseWave 3s infinite ease-in-out;
+    }
+
+    @keyframes pulseWave {
+      0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
+      100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+    }
+
+    /* Loader */
+    #loader {
+      position: fixed;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      z-index: 10;
+      color: white;
+      background: rgba(0, 0, 0, 0.9);
+      transition: opacity 1s ease;
+    }
+
+    .glow-text {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: #00baff;
+      text-shadow: 0 0 10px #00baff, 0 0 20px #00baff;
+    }
+
+    #progress-bar {
+      width: 60%; height: 10px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 20px;
+      box-shadow: 0 0 10px #00baff44;
+    }
+
+    #progress {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #00e5ff, #007bff, #00e5ff);
+      background-size: 300% 100%;
+      animation: shimmer 2s infinite linear;
+      box-shadow: 0 0 20px #00baff;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 300% 0%; }
+    }
+
+    #percent {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.2rem;
+      color: #00e5ff;
+      margin-top: 10px;
+    }
+
+    /* Main Page */
+    .container {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #e3f2fd;
+      margin-top: 30px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px #2196f3;
+    }
+
+    .heart-img {
+      width: 230px;
+      margin-top: 40px;
+      filter: drop-shadow(0 5px 25px rgba(0, 150, 255, 0.4));
+      animation: beat 1.5s infinite ease-in-out;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .ar-buttons { margin-top: 30px; }
+
+    .ar-button {
+      display: inline-block;
+      background: linear-gradient(90deg, #2196f3, #0d47a1);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-family: "Orbitron", sans-serif;
+      box-shadow: 0 0 20px rgba(0,150,255,0.4);
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+
+    .ar-button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px rgba(0,200,255,0.6);
+    }
+
+    p {
+      font-size: 1rem;
+      margin-top: 15px;
+      color: #b3e5fc;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="pulse"></div>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="glow-text">Initializing AR Interface...</div>
+    <div id="progress-bar"><div id="progress"></div></div>
+    <p id="percent">0%</p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container" id="main-content">
+    <h1>Explore the Solar System in AR</h1>
+    <img class="heart-img" src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Human_heart_anterior_external_view.jpg" alt="Human Heart">
+    
+    <div class="ar-buttons">
+      <!-- iPhone (USDZ) -->
+      <a href="SolarSystem.usdz" rel="ar" class="ar-button">View in AR (iPhone)</a>
+
+      <!-- Android (GLB via Google Drive) -->
+      <a href="SolarSystem.glb" class="ar-button">View in AR (Android)</a>
+        View in AR (Android)
+      </a>
+    </div>
+
+    <p>Project a realistic 3D solar system right into your surroundings.</p>
+  </div>
+
+  <!-- Background heartbeat sound -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1aef3a9b15.mp3?filename=heartbeat-loop-11067.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Floating particles
+    const bg = document.querySelector('.background');
+    for (let i = 0; i < 25; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 6 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${6 + Math.random() * 6}s`;
+      bg.appendChild(particle);
+    }
+
+    // Loader animation
+    let progress = 0;
+    const progressBar = document.getElementById('progress');
+    const percentText = document.getElementById('percent');
+    const loader = document.getElementById('loader');
+    const mainContent = document.getElementById('main-content');
+
+    const interval = setInterval(() => {
+      progress += Math.random() * 10;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        loader.style.opacity = "0";
+        setTimeout(() => {
+          loader.style.display = "none";
+          mainContent.style.opacity = "1";
+        }, 1000);
+      }
+      progressBar.style.width = progress + "%";
+      percentText.innerText = Math.floor(progress) + "%";
+    }, 180);
+  </script>
+</body>
+</html>
